@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Page</title>
+     
+    <style type="text/css" media="screen">
+        body {
+            background-color: skyblue;
+            text-decoration-color: white;
+            font-size:1em;
+        }
+    </style>
+</head>
+ 
+<body>
+    <h1>Welcome to the Home Page</h1>
+    <h2>hello <%= people.map(e=>{return e}).join(' ') %></h2>
+    <button>
+        <a href="/about">about</a>
+    </button>
+</body>
+ 
+</html> 
