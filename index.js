@@ -11,11 +11,25 @@ const server = http.createServer(function(req, res) {
   // standardize the requested url by removing any '/' at the start or end
   // '/folder/to/file/' becomes 'folder/to/file'
   path = path.replace(/^\/+|\/+$/g, "");
-  console.log(path);
+  let subPath = path.split('/')[1];
+  // console.log(path);
   if (path == "") {
     path = "home";
+  }else{
+    path = path.split("/")[0]
   }
-  let qs = parsedURL.query;
+  
+  
+  
+  let qs = parsedURL?.search?.replace(/^\/+|\/+/g, "").split("?").splice(1)
+  let queries= []
+  qs = qs?.forEach((e,i)=>{
+    queries.push(`"${e.split('=')[0]}":"${e.split('=')[1]}"`)
+  })
+  queries = JSON.parse(`{${queries.join(',')}}`)
+  //let create arr of queries
+  console.log(queries);
+
   let headers = req.headers;
   let method = req.method.toLowerCase();
 
@@ -33,7 +47,8 @@ const server = http.createServer(function(req, res) {
       typeof routes[path] !== "undefined" ? routes[path] : routes["fourOfour"];
     let data = {
       path: path,
-      queryString: qs,
+      url: parsedURL.pathname,
+      query: queries,
       headers: headers,
       method: method
     };

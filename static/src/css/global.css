@@ -1,0 +1,12 @@
+.btn{
+    padding: 0.5em 1em;
+    border-radius: 15px;
+}
+.btn:hover{
+    cursor: pointer;
+}
+
+.hoverMe:hover{
+    transform: scale(1.03);
+    transition: all 0.3s;
+}
