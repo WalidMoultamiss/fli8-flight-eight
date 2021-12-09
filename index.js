@@ -2,8 +2,7 @@ const http = require("http");
 const url = require("url");
 const PORT = process.env.PORT || 8080;
 let routes = require('./router');
-let Queries = require('./Queries');
-let fetcher = require('./Helpers/fetcher.js');
+
 
 
 
@@ -23,7 +22,8 @@ const server = http.createServer(async function(req, res) {
     path = path.split("/")[0]
   }
   let qs = parsedURL.query;
-  let fetchedData = await fetcher.get(Queries.getFlights())
+  // console.log(qs);
+  
   let headers = req.headers;
   let method = req.method.toLowerCase();
 
@@ -45,7 +45,6 @@ const server = http.createServer(async function(req, res) {
       query: qs,
       headers: headers,
       method: method,
-      data: fetchedData,
     };
     //pass data incase we need info about the request
     //pass the response object because router is outside our scope
