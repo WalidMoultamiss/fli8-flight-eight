@@ -3,6 +3,9 @@ var fs = require("fs");
 const path = require("path");
 let Queries = require('../Queries');
 let fetcher = require('../Helpers/fetcher.js');
+let query = require('../Helpers/query.js');
+const { log } = require("console");
+const Mutations = require("../Mutations");
 
 module.exports = routes = {
   home: async function (data, res) {
@@ -14,6 +17,12 @@ module.exports = routes = {
     res.end("\n");
   },
   reservation:async function (data, res) {
+    //check if there is something to post
+    if(data.method === "post"){
+      //just let the query method handle fetch
+      data = await query(data,'post','reservation')
+      let createUser = await fetcher.post(Mutations.addUser(data.body))
+    }
       id = data.query.id;
       let fetchedData = await fetcher.get(Queries.getFlight(id ? id : 1))
       data = {...data, flight: fetchedData}
@@ -21,9 +30,14 @@ module.exports = routes = {
       res.writeHead(200);
       res.write(html);
       res.end("\n");
-    
   },
   static: function (data, res) {
+    let static = fs.readFileSync(path.join(__dirname + "/../" + data.url));
+    res.writeHead(200);
+    res.write(static);
+    res.end("\n");
+  },
+  mutations: function (data, res) {
     let static = fs.readFileSync(path.join(__dirname + "/../" + data.url));
     res.writeHead(200);
     res.write(static);

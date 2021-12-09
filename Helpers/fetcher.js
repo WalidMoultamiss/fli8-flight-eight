@@ -23,4 +23,12 @@ module.exports = fetcher = {
       });
     });
   },
+  post: (query) => {
+    return new Promise((resolve, reject) => {
+      con.query(query, function (err, result) {
+        if (err) throw err;
+        resolve(result);
+      });
+    });
+  }
 };
