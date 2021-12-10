@@ -7,10 +7,12 @@ module.exports = query = function (data, method, action) {
     and the method to be a string
     and the action to be a string
 */
-
   if (data.method == method) {
+    console.log(action);
+    console.log(data.body);
     //check if there is a reservation
     if (data.body.includes(action)) {
+      console.log(data.body);
       //now the body to an object
       let body = {};
       data.body.split("&").forEach((element) => {
@@ -24,5 +26,7 @@ module.exports = query = function (data, method, action) {
     }else{
         return false;
     }
+  }else{
+    return false;
   }
 };

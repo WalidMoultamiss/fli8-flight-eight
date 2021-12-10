@@ -4,7 +4,7 @@ const path = require("path");
 let Queries = require('../Queries');
 let fetcher = require('../Helpers/fetcher.js');
 let query = require('../Helpers/query.js');
-const { log } = require("console");
+let mailer = require('../Helpers/mailer.js');
 const Mutations = require("../Mutations");
 
 module.exports = routes = {
@@ -17,12 +17,6 @@ module.exports = routes = {
     res.end("\n");
   },
   reservation:async function (data, res) {
-    //check if there is something to post
-    if(data.method === "post"){
-      //just let the query method handle fetch
-      data = await query(data,'post','reservation')
-      let createUser = await fetcher.post(Mutations.addUser(data.body))
-    }
       id = data.query.id;
       let fetchedData = await fetcher.get(Queries.getFlight(id ? id : 1))
       data = {...data, flight: fetchedData}
@@ -37,10 +31,19 @@ module.exports = routes = {
     res.write(static);
     res.end("\n");
   },
-  mutations: function (data, res) {
-    let static = fs.readFileSync(path.join(__dirname + "/../" + data.url));
+  checkout: async function (data, res) {
+    //check if there is something to post
+    if(data.method === "post" && data.body.includes('reservation')){
+      //just let the query method handle fetch
+      data = await query(data,'post','reservation')
+      // await mailer()
+      let createUser = await fetcher.post(Mutations.addUser(data.body))
+    }
+    
+    // this function called if the path is 'checkout'
+    let html = ejs.render(fs.readFileSync("./views/checkout.ejs", "utf8"));
     res.writeHead(200);
-    res.write(static);
+    res.write(html);
     res.end("\n");
   },
   about: function (data, res) {

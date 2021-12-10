@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>checkout Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost:8080/static/src/css/checkout.css">
+</head>
+
+<body>
+    <div class='container2'>
+        <div class='window'>
+            <div class='order-info w-full'>
+                <div class='w-full'>
+                    <h2>Order Summary</h2>
+                    <div class='line'></div>
+                    <table class=''>
+                        <div class="w-full">
+                            <div class="flex w-full flex-col mt-4 gap-3">
+                                <div class="flex gap-4 w-full">
+                                    <div class="w-1/2" >
+                                        <span>full name</span>
+                                        <input class="w-full p-3 rounded-lg border-2 border-gray-400" type="text"
+                                            name="username">
+                                    </div>
+                                    <div  class="w-1/2">
+                                        <span>passport</span>
+                                        <input class="w-full p-3 rounded-lg border-2 border-gray-400" type="passport"
+                                            name="passport">
+                                    </div>
+                                </div>
+                                <div class="flex w-full flex-col mt-4 gap-3">
+                                    <div class="flex gap-4 w-full">
+                                        <div  class="w-1/2">
+                                            <span>doctor id</span>
+                                            <input class="w-full p-3 rounded-lg border-2 border-gray-400" type="text"
+                                                name="doctor_id">
+                                        </div>
+                                        <div  class="w-1/2">
+                                            <span>phone number</span>
+                                            <input class="w-full p-3 rounded-lg border-2 border-gray-400" type="text"
+                                                name="contact">
+                                        </div>
+                                    </div>
+                                </div>
+                                <span>address</span>
+                                <input class="w-full p-3 rounded-lg border-2 border-gray-400" type="text"
+                                    name="address">
+                                <span>Email</span>
+                                <input class="w-full p-3 rounded-lg border-2 border-gray-400" type="email"
+                                    name="email">
+                                <input type="hidden" name="num_pass" id="num_pass_final">
+                                <input type="hidden" name="flight_id" id="flight_id">
+                                <!-- <button name="reservation" id="reservation"  type="submit" class="text-white hidden bg-blue-500 p-3 rounded-lg">
+                                    <h4 class="text-lg">confirm booking</h4>
+                                </button> -->
+                                </form>
+                    </table>
+                    <div class='line'></div>
+                    <div class='total'>
+                        <span style='float:left;'>
+                            TOTAL
+                        </span>
+                        <span style='float:right; text-align:right;'>
+                            $435.55
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class='credit-info'>
+                <div class='credit-info-content'>
+                    <table class='half-input-table'>
+                        <tr>
+                            <td>Please select your card: </td>
+                            <td>
+                                <div class='dropdown' id='card-dropdown'>
+                                    <div class='dropdown-btn' id='current-card'>Visa</div>
+                                    <div class='dropdown-select'>
+                                        <ul>
+                                            <li>Master Card</li>
+                                            <li>American Express</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <img src='https://dl.dropboxusercontent.com/s/ubamyu6mzov5c80/visa_logo%20%281%29.png' height='80'
+                        class='credit-card-image' id='credit-card-image'></img>
+                    Card Number
+                    <input class='input-field'></input>
+                    Card Holder
+                    <input class='input-field'></input>
+                    <table class='half-input-table'>
+                        <tr>
+                            <td> Expires
+                                <input class='input-field'></input>
+                            </td>
+                            <td>CVC
+                                <input class='input-field'></input>
+                            </td>
+                        </tr>
+                    </table>
+                    <form action="" method="post">
+                        <button type="submit" name="mailer" class='pay-btn'>Confirm order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var cardDrop = document.getElementById('card-dropdown');
+        var activeDropdown;
+        cardDrop.addEventListener('click', function () {
+            var node;
+            for (var i = 0; i < this.childNodes.length - 1; i++)
+                node = this.childNodes[i];
+            if (node.className === 'dropdown-select') {
+                node.classList.add('visible');
+                activeDropdown = node;
+            };
+        })
+
+        window.onclick = function (e) {
+            console.log(e.target.tagName)
+            console.log('dropdown');
+            console.log(activeDropdown)
+            if (e.target.tagName === 'LI' && activeDropdown) {
+                if (e.target.innerHTML === 'Master Card') {
+                    document.getElementById('credit-card-image').src = 'https://dl.dropboxusercontent.com/s/2vbqk5lcpi7hjoc/MasterCard_Logo.svg.png';
+                    activeDropdown.classList.remove('visible');
+                    activeDropdown = null;
+                    e.target.innerHTML = document.getElementById('current-card').innerHTML;
+                    document.getElementById('current-card').innerHTML = 'Master Card';
+                }
+                else if (e.target.innerHTML === 'American Express') {
+                    document.getElementById('credit-card-image').src = 'https://dl.dropboxusercontent.com/s/f5hyn6u05ktql8d/amex-icon-6902.png';
+                    activeDropdown.classList.remove('visible');
+                    activeDropdown = null;
+                    e.target.innerHTML = document.getElementById('current-card').innerHTML;
+                    document.getElementById('current-card').innerHTML = 'American Express';
+                }
+                else if (e.target.innerHTML === 'Visa') {
+                    document.getElementById('credit-card-image').src = 'https://dl.dropboxusercontent.com/s/ubamyu6mzov5c80/visa_logo%20%281%29.png';
+                    activeDropdown.classList.remove('visible');
+                    activeDropdown = null;
+                    e.target.innerHTML = document.getElementById('current-card').innerHTML;
+                    document.getElementById('current-card').innerHTML = 'Visa';
+                }
+            }
+            else if (e.target.className !== 'dropdown-btn' && activeDropdown) {
+                activeDropdown.classList.remove('visible');
+                activeDropdown = null;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

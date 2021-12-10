@@ -15,10 +15,14 @@
         }
 
         body {
-            background-color: black;
+            background-color: white;
             text-decoration-color: white;
             font-size: 1em;
             position: relative;
+        }
+
+        .backdrop_blur {
+            backdrop-filter: blur(10px);
         }
 
         .app {
@@ -45,7 +49,9 @@
                     <div>
                         <h2 class="text-white text-sm">from</h2>
                         <div class="flex gap-2">
-                            <h3 class="text-3xl text-white font-bold">MMA</h3>
+                            <h3 class="text-3xl text-white font-bold">
+                                <%= data[0].departure_airport.split(' ').map(word => word.slice(0, 1)).join('')  %>
+                            </h3>
                             <img src="http://localhost:8080/static/src/img/plane-departure.png" width="42px"
                                 height="28px" alt="" srcset="">
                         </div>
@@ -53,7 +59,11 @@
                     <div>
                         <h2 class="text-white text-sm">to</h2>
                         <div class="flex gap-2">
-                            <h3 class="text-3xl text-white font-bold">GGA</h3>
+                            <h3 class="text-3xl text-white font-bold">
+                                <h3 class="text-3xl text-white font-bold">
+                                    <%= data[0].arrival_airport.split(' ').map(word => word.slice(0, 1)).join('')  %>
+                                </h3>
+                            </h3>
                             <img src="http://localhost:8080/static/src/img/plane-arrival.png" width="42px" height="28px"
                                 alt="" srcset="">
                         </div>
@@ -67,9 +77,9 @@
                         </div>
                     </div>
                     <div>
-                        <h2 class="text-white text-sm">Passenger</h2>
+                        <h2 class="text-white text-sm">Seats</h2>
                         <div class="flex">
-                            <h3 class="text-3xl text-white font-bold">1</h3>
+                            <h3 class="text-3xl text-white font-bold"><%= data[0].seats %></h3>
                         </div>
                     </div>
                 </div>
@@ -77,137 +87,139 @@
             </div>
         </div>
         <div class="right flex w-full flex-col h-screen p-5 lg:w-7/12 bg-gray-100">
-            <button onclick="window.location.href='/'" class="text-2xl gap-3 flex items-center mb-6 font-bold">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-arrow-left">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Select Flight</button>
+            <button onclick="window.location.href=' /'" class="text-2xl gap-3 flex items-center mb-6 font-bold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-arrow-left">
+                                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                                        <polyline points="12 19 5 12 12 5"></polyline>
+                                    </svg>
+                                    Select Flight</button>
 
-            <div class="w-full flex-col flex justify-between">
-                <div class="flex w-full flex-col gap-3">
-                    <% for(var i=0; i < data.length; i++) { %>
-                        <button
-                            class="w-full hover:border-blue-100 hover:border-2 hoverMe rounded-lg bg-white shadow-xl cursor-pointer flex justify-between p-5">
-                            <div class="bg-cover p-6 px-11 bg-center" style="background-image: url('');">
-                            </div>
-                            <h4 class="">
-                                <%= data[i].id %>
-                            </h4>
-                            <h4 class="">
-                                <%= data[i].plane_no %>
-                            </h4>
-                        </button>
-                        <% } %>
-                </div>
-                <h3 class="pt-4 pb-2">Passenger here</h3>
-                <div id="passenger_form" class="w-full gap-3 flex flex-col">
-                    <div class="flex w-full gap-3 p-3 rounded-md bg-blue-100">
-                        <div class="w-full">
-                            <label for="name_pass_1">full name</label>
-                            <input type="text" name="fullname" id="name_pass_1"
-                                class="w-full p-2 border-2 border-gray-400 rounded-lg">
-                        </div>
-                        <div class="w-full">
-                            <label for="passport_pass_1">Passport</label>
-                            <input type="text" name="passport" id="passport_pass_1"
-                                class="w-full p-2 border-2 border-gray-400 rounded-lg">
-                        </div>
-                        <div class="w-full">
-                            <label for="email_pass_1">email</label>
-                            <input type="email" name="email_pass" id="email_pass_1"
-                                class="w-full p-2 border-2 border-gray-400 rounded-lg">
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full flex mt-3 justify-end">
-                    <div class="p-3 px-5 flex gap-3 rounded bg-blue-400">
-                        <input type="number" id="numOfpassengers" value="1" class="w-6 rounded-sm" id="">
-                        <button onclick="addPassenger()" class="text-white">add passenger</button>
-                    </div>
-                </div>
-                <div class="border-b-2 w-full py-4 mb-4"></div>
-                <h3 class="text-lg">checkout</h3>
-                <div class="flex justify-between w-full">
-                    <h4>Cost per unit</h4>
-                    <h4>450$</h4>
-                </div>
-                <div class="flex justify-between w-full">
-                    <h4>Tax</h4>
-                    <h4>50$</h4>
-                </div>
-                <div class="flex justify-between w-full">
-                    <h4>Passengers</h4>
-                    <h4 id="numPass">0</h4>
-                </div>
-                <div class="border-b-2 w-full py-4 mb-4"></div>
-                <div class="flex justify-between w-full">
-                    <h4>Total</h4>
-                    <div class="flex items-end">
-                        <h4 id="total" class="text-4xl font-bold"><%= data[0].price %></h4><span class="text-2xl">$</span>
-                    </div>
-                </div>
-
-                <form action="" class="hidden" method="post">
-                    <div class="flex w-full flex-col gap-3">
-                        <input type="text" name="username">
-                        <input type="email" name="email">
-                        <input type="password" name="password">
-                        <input type="text" name="doctor_id">
-                        <input type="text" name="contact">
-                        <input type="text" name="address">
-                        <button name="reservation" type="submit"
-                            class="w-full hover:border-blue-100 hover:border-2 hoverMe rounded-lg bg-white shadow-xl cursor-pointer flex justify-between p-5">
-                            ok
-                        </button>
-                </form>
-            </div>
+                                    <div class="w-full flex-col flex justify-between">
+                                        <div class="flex w-full flex-col gap-3">
+                                            <% for(var i=0; i < data.length; i++) { %>
+                                                <button
+                                                    class="w-full hover:border-blue-100 hover:border-2 hoverMe rounded-lg bg-white shadow-xl cursor-pointer flex justify-between p-5">
+                                                    <div class="bg-cover p-6 px-11 bg-center"
+                                                        style="background-image: url('');">
+                                                    </div>
+                                                    <h4 class="">
+                                                        <%= data[i].id %>
+                                                    </h4>
+                                                    <h4 class="">
+                                                        <%= data[i].departure_airport %>
+                                                    </h4>
+                                                    <h4 class="">
+                                                        <%= data[i].arrival_airport %>
+                                                    </h4>
+                                                    <h4 class="">
+                                                        <%= data[i].plane_no %>
+                                                    </h4>
+                                                </button>
+                                                <% } %>
+                                        </div>
+                                        <div style="max-height: 50vh;" class="overflow-y-scroll">
+                                            <h3 class="pt-4 pb-2">Passengers section</h3>
+                                            <div id="passenger_form" class="w-full gap-3 flex flex-col">
+                                            </div>
+                                            <div class="w-full flex mt-3 justify-end">
+                                                <div class="p-3 px-5 flex gap-3 rounded bg-blue-400">
+                                                    <input type="number" id="numOfpassengers" value="1"
+                                                        class="w-6 rounded-sm" id="">
+                                                    <button onclick="addPassenger()" class="text-white">add
+                                                        passenger</button>
+                                                </div>
+                                            </div>
+                                            <div class="border-b-2 w-full py-4 mb-4"></div>
+                                            <h3 class="text-lg">checkout</h3>
+                                            <div class="flex justify-between w-full">
+                                                <h4>Cost per unit</h4>
+                                                <h4>
+                                                    <%= data[0].price - (data[0].price * 0.2) %>$
+                                                </h4>
+                                            </div>
+                                            <div class="flex justify-between w-full">
+                                                <h4>Tax</h4>
+                                                <h4>
+                                                    <%= data[0].price * 0.2 %>
+                                                </h4>
+                                            </div>
+                                            <div class="flex justify-between w-full">
+                                                <h4>Passengers</h4>
+                                                <h4 id="numPass">0</h4>
+                                            </div>
+                                        </div>
+                                        <div class="border-b-2 w-full py-4 mb-4"></div>
+                                        <div class="flex justify-between w-full">
+                                            <h4>Total</h4>
+                                            <div class="flex items-end">
+                                                <h4 id="total" class="text-4xl font-bold">
+                                                    <%= data[0].price %>
+                                                </h4><span class="text-2xl">$</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-end w-full">
+                                            <button onclick="handlePopupCheckout()"
+                                                class="text-white bg-blue-500 p-3 rounded-lg">
+                                                <h4 class="text-lg">Book Now</h4>
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
 </body>
 <script>
     //add passenger inputs
-let passenger = document.getElementById("passenger_form");
-let price = <%= data[0].price %>;
+    let passenger = document.getElementById("passenger_form");
+    let price = <%= data[0].price %>;
 
+    const handlePopupCheckout = () => {
+        let popup = document.getElementById("popup_checkout");
+        if (popup.style.display == "flex") {
+            popup.style.display = "none";
+        } else {
+            popup.style.display = "flex";
+        }
+    }
+    const removePass = (e) => {
+        e.parentNode.parentNode.removeChild(e.parentNode);
+        checkOutNumOfPass = document.getElementById('numPass').innerHTML
+        document.getElementById('numPass').innerHTML = +checkOutNumOfPass - 1
+        document.getElementById('total').innerHTML = +document.getElementById('total').innerHTML - price
+        document.getElementById('num_pass_final').value = +document.getElementById('num_pass_final').value - 1
+    }
 
-const removePass = (e) => {
-    e.parentNode.parentNode.removeChild(e.parentNode);
-    checkOutNumOfPass = document.getElementById('numPass').innerHTML
-    document.getElementById('numPass').innerHTML = +checkOutNumOfPass -1
-    document.getElementById('total').innerHTML = +document.getElementById('total').innerHTML - price
-}
-
-const addPassenger = () => {
-  let numOfpassengers = document.getElementById("numOfpassengers").value;
-  let html = [];
-  for (var i = 0; i < numOfpassengers; i++) {
-    html.push(`
+    const addPassenger = () => {
+        let numOfpassengers = document.getElementById("numOfpassengers").value;
+        let html = [];
+        for (var i = 0; i < numOfpassengers; i++) {
+            html.push(`
                 <div class="flex w-full gap-3 p-3 rounded-md bg-blue-100 relative">
                     <button onclick="removePass(this)" class="text-xs text-white rounded-full absolute top-1 right-1 px-3 p-1 bg-red-400">
                         remove
                     </button>
                     <div class="w-full">
-                        <label for="name_pass_${i+2}">full name</label>
-                        <input type="text" name="name_pass" id="name_pass_${i+2}" class="w-full p-2 border-2 border-gray-400 rounded-lg">
+                        <label for="name_pass_${i + 2}">full name</label>
+                        <input type="text" name="name_pass" id="name_pass_${i + 2}" class="w-full p-2 border-2 border-gray-400 rounded-lg">
                     </div>
                     <div class="w-full">
-                        <label for="passport_pass_${i+2}">Passport</label>
-                        <input type="text" name="passport" id="passport_pass_${i+2}" class="w-full p-2 border-2 border-gray-400 rounded-lg">
+                        <label for="passport_pass_${i + 2}">Passport</label>
+                        <input type="text" name="passport" id="passport_pass_${i + 2}" class="w-full p-2 border-2 border-gray-400 rounded-lg">
                     </div>
                     <div class="w-full">
-                        <label for="email_pass_${i+2}">email</label>
-                        <input type="email" name="email_pass" id="email_pass_${i+2}" class="w-full p-2 border-2 border-gray-400 rounded-lg">
+                        <label for="email_pass_${i + 2}">email</label>
+                        <input type="email" name="email_pass" id="email_pass_${i + 2}" class="w-full p-2 border-2 border-gray-400 rounded-lg">
                     </div>
                 </div>
 `);
-  }
-  checkOutNumOfPass = document.getElementById('numPass').innerHTML
-  document.getElementById('numPass').innerHTML = +checkOutNumOfPass + +numOfpassengers;
-  document.getElementById('total').innerHTML = +document.getElementById('total').innerHTML + price * (+checkOutNumOfPass + +numOfpassengers);
-  console.log(checkOutNumOfPass);
-  passenger.innerHTML += html.join("");
-};
+        }
+        checkOutNumOfPass = document.getElementById('numPass').innerHTML
+        document.getElementById('numPass').innerHTML = +checkOutNumOfPass + +numOfpassengers;
+        document.getElementById('total').innerHTML = +document.getElementById('total').innerHTML + price * (+checkOutNumOfPass + +numOfpassengers);
+        document.getElementById('num_pass_final').value = +document.getElementById('num_pass_final').value + +numOfpassengers;
+        passenger.innerHTML += html.join("");
+    };
 
 </script>
+
 </html>
