@@ -116,8 +116,9 @@ module.exports = queries = {
   getFlights: () =>`SELECT flight_list.*, airlines_list.airlines , airlines_list.logo_path ,airport_list.airport as departure_airport, (SELECT airport_list.airport from airport_list where airport_list.id = flight_list.arrival_airport_id) as arrival_airport, airport_list.location FROM flight_list, airlines_list, airport_list WHERE flight_list.airline_id = airlines_list.id and airport_list.id =flight_list.departure_airport_id`,
   getAirline: () => `SELECT id, airlines, logo_path FROM airlines_list`,
   getAirport: () => `SELECT id, airport, location FROM airport_list`,
+  getLastUser: () => `SELECT id FROM users ORDER BY id DESC LIMIT 1`,
   getFlight: (id) =>`SELECT flight_list.*, airlines_list.airlines , airlines_list.logo_path ,airport_list.airport as departure_airport, (SELECT airport_list.airport from airport_list where airport_list.id = flight_list.arrival_airport_id) as arrival_airport, airport_list.location FROM flight_list, airlines_list, airport_list WHERE flight_list.airline_id = airlines_list.id and airport_list.id =flight_list.departure_airport_id and flight_list.id = ${id}`,
   getFlightFromAirlineName: (airline_name) =>`SELECT flight_list.*, airlines_list.airlines , airlines_list.logo_path FROM flight_list, airlines_list WHERE flight_list.airline_id = airlines_list.id AND airlines_list.airlines = '${airline_name}'`,
   getUser: (id) => "SELECT * FROM users WHERE id = " + id,
-  getUserByEmail: (email) => `SELECT * FROM users WHERE email = '${email}'`,
+  getUserByEmail: (email) => `SELECT id FROM users WHERE email = '${email}'`,
 };

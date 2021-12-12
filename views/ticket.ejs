@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ticket Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="http://localhost:8080/static/src/css/ticket.css" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body  id="print-ticket">
+    <div  class="container first">
+        <div class="top left corner"></div>
+        <div class="top right corner"></div>
+        <div class="bottom left corner"></div>
+        <div class="bottom right corner"></div>
+        <div class="spacer">
+            <div class="name-flight">
+                <h3><%= data.username %></h3>
+                <h4>Plane no: <span><%=  data.flight.plane_no%></span></h4>
+            </div>
+            <div class="destination">
+                <div class="from">
+                    <h1>BUD</h1>
+                    <h6>Budapest</h6>
+                </div>
+                <div class="center">
+                    <i class="material-icons">flight_takeoff</i>
+                </div>
+                <div class="to">
+                    <h1>LTN</h1>
+                    <h6>Luton Airport</h6>
+                </div>
+            </div>
+            <div class="details">
+                <div class="left-side">
+                    <h5>Departure:</br><span id="departure_datetime"><%= new Date(data.flight.departure_datetime).toISOString()%></span></h5>
+                    <h5>Gate:</br><span>2B</span></h5>
+                </div>
+                <div class="right-side">
+                    <h5>Arrival:</br><span id="arrival_datetime" ><%= new Date(data.flight.arrival_datetime).toISOString()%></span></h5>
+                    <h5>Seat:</br><span>4A</span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container second">
+        <div class="top left"></div>
+        <div class="top right"></div>
+        <div class="bottom left"></div>
+        <div class="bottom right"></div>
+        <div class="spacer2">
+            <h3><%= data.username %></h3>
+            <div class="text-barcode">
+                <div class="flight-gate">
+                    <h5>Flight: <span><%=  data.flight.plane_no%></span></h5>
+                    <h5>Gate: <span>2B</span></h5>
+                </div>
+            </div>
+        </div>
+        <button
+            id="print-button"
+            class="text-white bg-blue-600 hover:bg-blue-700 text-sm font-bold py-2 px-4 rounded-full" 
+            onclick="printpage()">
+            Print
+        </button>
+    </div>
+    <script>
+        var departure_datetime = document.getElementById("departure_datetime");
+        var arrival_datetime = document.getElementById("arrival_datetime");
+        departure_datetime.innerHTML = departure_datetime.innerHTML.split('T')[0]
+        arrival_datetime.innerHTML = arrival_datetime.innerHTML.split('T')[0]
+
+
+        //function onclick print ticket with style as png
+        function printpage() {
+            //Get the print button and put it into a variable
+            var printButton = document.getElementById("print-button");
+            //Set the print button visibility to 'hidden'
+            printButton.style.visibility = 'hidden';
+            //Print the page content
+            window.print()
+            let ticket = document.getElementById("print-ticket").innerHTML;
+            //Set the print button to 'visible' again
+            printButton.style.visibility = 'visible';
+        }
+    </script>
+</body>
+
+</html>

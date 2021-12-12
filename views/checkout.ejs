@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <form action="/ticket" method="post">
     <div class='container2'>
         <div class='window'>
             <div class='order-info w-full'>
@@ -50,11 +51,8 @@
                                 <span>Email</span>
                                 <input class="w-full p-3 rounded-lg border-2 border-gray-400" type="email"
                                     name="email">
-                                <input type="hidden" name="num_pass" id="num_pass_final">
-                                <input type="hidden" name="flight_id" id="flight_id">
-                                <!-- <button name="reservation" id="reservation"  type="submit" class="text-white hidden bg-blue-500 p-3 rounded-lg">
-                                    <h4 class="text-lg">confirm booking</h4>
-                                </button> -->
+                                <input type="hidden" value="<%= +data.numPass %>" name="num_pass" id="num_pass_final">
+                                <input type="hidden" name="id"  value="<%= data.id %>" id="id">
                                 </form>
                     </table>
                     <div class='line'></div>
@@ -63,7 +61,7 @@
                             TOTAL
                         </span>
                         <span style='float:right; text-align:right;'>
-                            $435.55
+                            $<%= +data.price + (+data.numPass * +data.price ) %>
                         </span>
                     </div>
                 </div>
@@ -102,13 +100,12 @@
                             </td>
                         </tr>
                     </table>
-                    <form action="" method="post">
-                        <button type="submit" name="mailer" class='pay-btn'>Confirm order</button>
-                    </form>
+                        <button type="submit" name="confirm" class='pay-btn'>Confirm order</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <script>
         var cardDrop = document.getElementById('card-dropdown');
         var activeDropdown;
