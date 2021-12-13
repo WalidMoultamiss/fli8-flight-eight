@@ -120,5 +120,7 @@ module.exports = queries = {
   getFlight: (id) =>`SELECT flight_list.*, airlines_list.airlines , airlines_list.logo_path ,airport_list.airport as departure_airport, (SELECT airport_list.airport from airport_list where airport_list.id = flight_list.arrival_airport_id) as arrival_airport, airport_list.location FROM flight_list, airlines_list, airport_list WHERE flight_list.airline_id = airlines_list.id and airport_list.id =flight_list.departure_airport_id and flight_list.id = ${id}`,
   getFlightFromAirlineName: (airline_name) =>`SELECT flight_list.*, airlines_list.airlines , airlines_list.logo_path FROM flight_list, airlines_list WHERE flight_list.airline_id = airlines_list.id AND airlines_list.airlines = '${airline_name}'`,
   getUser: (id) => "SELECT * FROM users WHERE id = " + id,
+  getUsers: () => "SELECT * FROM users",
   getUserByEmail: (email) => `SELECT id FROM users WHERE email = '${email}'`,
+  getStatistics: () => `SELECT COUNT(orders_price_total_booked.tickets) as orders , count_users.users , SUM(orders_price_total_booked.total) as value , SUM(orders_price_total_booked.tickets) as tickets FROM orders_price_total_booked,count_users`,
 };

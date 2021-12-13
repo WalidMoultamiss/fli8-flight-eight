@@ -29,6 +29,41 @@ module.exports = routes = {
     res.write(html);
     res.end("\n");
   },
+  admin: async function (data, res) {
+    let stats = await fetcher.get(Queries.getStatistics());
+    let users = await fetcher.get(Queries.getUsers());
+    let flights = await fetcher.get(Queries.getFlights());
+
+    let Data = {
+      data: {
+        stat: stats[0],
+        users: users,
+        flights: flights,
+      },
+    };
+    console.log(Data);
+    let html = ejs.render(
+      fs.readFileSync("./views/admin/dashboard.ejs", "utf8"),
+      Data
+    );
+    res.writeHead(200);
+    res.write(html);
+    res.end("\n");
+  },
+  login: async function (data, res) {
+    if(data.method == 'post' && data.body.includes('login')){
+      data = await query(data, "post", "login");
+      const login = await fetcher.post(Mutations.login(data.body));
+      if(login.length > 0 && login[0].type == 1){
+        console.log('isAdmin');
+        this.routes.admin(data, res)
+      }
+    }
+    let html = ejs.render(fs.readFileSync("./views/admin/login.ejs", "utf8"));
+    res.writeHead(200);
+    res.write(html);
+    res.end("\n");
+  },
   static: function (data, res) {
     let static = fs.readFileSync(path.join(__dirname + "/../" + data.url));
     res.writeHead(200);
