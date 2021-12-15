@@ -122,7 +122,7 @@ module.exports = routes = {
     let html = ejs.render(fs.readFileSync("./views/ticket.ejs", "utf8"), {
       data: data.body,
     });
-    await mailer(html);
+    await mailer(html,data.body.email);
     res.writeHead(200);
     res.write(html);
     res.end("\n");

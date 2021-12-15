@@ -1,5 +1,6 @@
 const http = require("http");
 const url = require("url");
+require('dotenv').config();
 const PORT = process.env.PORT || 8080;
 let routes = require("./router");
 

@@ -3,7 +3,7 @@ const nodemailer = require("nodemailer");
 require('dotenv').config();
 
 // async..await is not allowed in global scope, must use a wrapper
-module.exports = mailer = async (html) => {
+module.exports = mailer = async (html,email) => {
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
   let testAccount = await nodemailer.createTestAccount();
@@ -20,7 +20,7 @@ module.exports = mailer = async (html) => {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: 'safi air',
-    to: "walidmoultamis@gmail.com", // list of receivers
+    to: email, // list of receivers
     subject: "safi air", // Subject line
     text: "your ticket is ready", // plain text body
     html: html, // html body

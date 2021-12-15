@@ -8,6 +8,7 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <style>
 
     </style>
@@ -27,16 +28,16 @@
                     </a>
                 </li>
                 <li>
-                    <a class="text-white" href="">
+                    <h1 class="text-white" onclick="viewTable('users')">
                         <i class="fas fa-user"></i>
                         <span>Users</span>
-                    </a>
+                    </h1>
                 </li>
                 <li>
-                    <a class="text-white" href="">
-                        <i class="fas fa-users"></i>
-                        <span>Customers</span>
-                    </a>
+                    <h1 class="text-white" onclick="viewTable('flights')">
+                        <i class="fas fa-plane-departure"></i>
+                        <span>Flights</span>
+                    </h1>
                 </li>
                 <li>
                     <a class="text-white" href="">
@@ -229,7 +230,7 @@
                     </div>
                 </div>
             </div>
-            <div class="users px-5">
+            <div class="users tables px-5 hidden">
                 <div class="w-full w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
                     <header class="px-5 py-4 border-b border-gray-100">
                         <h2 class="font-semibold text-gray-800">Customers</h2>
@@ -294,9 +295,139 @@
                     </div>
                 </div>
             </div>
+            <div class="flights tables px-5">
+                <div class="w-full w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+                    <header class="px-5 py-4 border-b border-gray-100">
+                        <h2 class="font-semibold text-gray-800">Flights</h2>
+                    </header>
+                    <div class="p-3">
+                        <div class="overflow-x-auto">
+                            <table class="table-auto w-full">
+                                <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                                    <tr>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-left">id</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-left">airline_id</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-left">plane_no</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">departure_airport_id</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">arrival_airport_id</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">departure_datetime</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">arrival_datetime</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">seats</div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">price</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm divide-y divide-gray-100">
+                                    <% data.flights.forEach(function(flight) { %>
+                                        <tr>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-left">
+                                                    <%= flight.id %>
+                                                </div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-left">
+                                                    <%= flight.airline_id %>
+                                                </div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-left">
+                                                    <%= flight.plane_no %>
+                                                </div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-center">
+                                                    <%= flight.departure_airport_id %>
+                                                </div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-center">
+                                                    <%= flight.arrival_airport_id %>
+                                                </div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-center">
+                                                    <%= flight.departure_datetime %>
+                                                </div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-center">
+                                                    <%= flight.arrival_datetime %>
+                                                </div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-center">
+                                                    <%= flight.seats %>
+                                                </div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-center">
+                                                    <%= flight.price %>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <canvas id="myChart" style="width:100%;max-width:700px"></canvas> -->
 
         </div>
     </div>
+    <script>
+        // var jsis = `${dsd} ${sdd}`
+        // var xyValues = [
+        //   {x:50, y:7},
+        //   {x:60, y:8},
+        //   {x:70, y:8},
+        //   {x:80, y:9},
+        //   {x:90, y:9},
+        //   {x:100, y:9},
+        //   {x:110, y:10},
+        //   {x:120, y:11},
+        //   {x:130, y:14},
+        //   {x:140, y:14},
+        //   {x:150, y:15}
+        // ];
+        
+        // new Chart("myChart", {
+        //   type: "scatter",
+        //   data: {
+        //     datasets: [{
+        //       pointRadius: 4,
+        //       pointBackgroundColor: "rgb(0,0,255)",
+        //       data: xyValues
+        //     }]
+        //   },
+        //   options: {
+        //     legend: {display: false},
+        //     scales: {
+        //       xAxes: [{ticks: {min: 40, max:160}}],
+        //       yAxes: [{ticks: {min: 6, max:16}}],
+        //     }
+        //   }
+        // });
+        </script>
     <script>
         const handleMenu = () => {
             document.querySelector('#menu_user').classList.toggle('hidden')
@@ -304,6 +435,16 @@
         document.querySelectorAll('span').forEach(element => {
             element.classList.add('text-white')
         });
+
+        const viewTable = (table) => {
+            document.querySelectorAll('.tables').forEach(element => {
+                if(element.classList.contains(table)) {
+                    element.classList.remove('hidden')
+                } else {
+                    element.classList.add('hidden')
+                }
+            });
+        }
     </script>
 </body>
 
